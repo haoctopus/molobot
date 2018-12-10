@@ -60,8 +60,12 @@ def configurate(path):
     file_str = open(path, 'r').read()
     if '\nmolobot:' in file_str:
         return
+	print("请输入你绑定的手机号(input your bound phone number):")
+	phone = str(input())
+	print("请输入你绑定的密码(input your bound password):")
+	password = str(input())
     with open(path, 'a') as f:
-        f.write('\nmolobot:\n')
+        f.write('\nmolobot:\n  phone: %s\n  password: %s\n' % (phone, password))
 
 
 def delete_file():
