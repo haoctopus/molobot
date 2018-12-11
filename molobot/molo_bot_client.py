@@ -18,6 +18,7 @@ from .molo_tcp_pack import MoloTcpPack
 from .utils import LOGGER, dns_open, get_rand_char, save_local_seed
 from homeassistant.helpers.json import JSONEncoder
 
+
 class MoloBotClient(asyncore.dispatcher):
     """Client protocol class for Molobot."""
 
@@ -86,6 +87,9 @@ class MoloBotClient(asyncore.dispatcher):
         phone = str(phone and phone or "").strip()
         password = str(password and password or "").strip()
         if not phone or not re.match(r'1\d{10}', phone):
+            MOLO_CLIENT_APP.hass_context.components.persistent_notification.async_create(
+                "Invalid phone number, please check your configuration.",
+                "Molo Bot Infomation", "molo_bot_notify")
             LOGGER.error("hass configuration.yaml haweb phone error")
             self._phone_sign = "null"
             return self._phone_sign
@@ -105,7 +109,8 @@ class MoloBotClient(asyncore.dispatcher):
             return None
 
         devicelist = MOLO_CLIENT_APP.hass_context.states.async_all()
-        jlist = json.dumps(devicelist, sort_keys=True, cls=JSONEncoder).encode('UTF-8')
+        jlist = json.dumps(
+            devicelist, sort_keys=True, cls=JSONEncoder).encode('UTF-8')
         if not self.client_token or not jlist:
             return None
 
@@ -271,7 +276,8 @@ class MoloBotClient(asyncore.dispatcher):
             service = jpayload.get("service")
             data = jpayload.get("data")
             try:
-                exc = MOLO_CLIENT_APP.hass_context.services.call(domain, service, data, blocking=True)
+                exc = MOLO_CLIENT_APP.hass_context.services.call(
+                    domain, service, data, blocking=True)
             except Exception as e:
                 exc = traceback.format_exc()
 
@@ -290,7 +296,8 @@ class MoloBotClient(asyncore.dispatcher):
 
         elif action == "query":
             data = jpayload.get("data")
-            state = MOLO_CLIENT_APP.hass_context.states.get(data.get("entity_id"))
+            state = MOLO_CLIENT_APP.hass_context.states.get(
+                data.get("entity_id"))
             if not state:
                 return None
 
