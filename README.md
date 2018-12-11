@@ -9,12 +9,12 @@
 在终端直接执行下面命令一键安装molobot:
 
 ```shell
-curl --silent --show-error --retry 5 https://raw.githubusercontent.com/haoctopus/molobot/master/auto_install.py | sudo python
+python <(curl "https://raw.githubusercontent.com/haoctopus/molobot/master/auto_install.py" -s -N)
 ```
 
 等待提示安装成功后手动重启Home Assistant即可。
 
-若此方法安装失败，请用下面的方法手动安装。有`curl`组件的Windows用户也可以通过`cmd`执行一键安装（需要去掉命令中的`sudo`）。
+若此方法安装失败，请用下面的方法手动安装。有`curl`组件的Windows用户也可以通过`cmd`。
 
 **【安装软件】**
 
@@ -83,12 +83,12 @@ This is a component that allows the Tmall Genie to access Home Assistant. By usi
 If you are Linux-based user, run the command below to install molohub automatically:
 
 ```shell
-curl --silent --show-error --retry 5 https://raw.githubusercontent.com/haoctopus/molobot/master/auto_install.py | sudo python
+python <(curl "https://raw.githubusercontent.com/haoctopus/molobot/master/auto_install.py" -s -N)
 ```
 
 Wait untill installation success, and restart your Home Assistant.
 
-If this not working, please install molobot manually according to the next section. For Windows user with `curl` component, remove `sudo` in command and run it in `cmd`.
+If this not working, please install molobot manually according to the next section. For Windows user with `curl` component, run the command line in `cmd`.
 
 **【Installation】**
 
