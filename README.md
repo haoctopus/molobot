@@ -4,6 +4,17 @@
 
 这是一个能让天猫精灵接入Home Assistant的组件. 通过使用此组件可以实现用语音让天猫精灵控制家里已经连上HA的硬件.
 
+本组件不会上传用户所绑定天猫精灵的手机号和密码到服务器上, 而是将其通过SHA1哈希算法生成token来与阿里平台交互, 账号数据对于服务器透明, 不用担心账号安全问题:
+
+```python
+# molo_bot_client.py: get_phonesign(): Line 93
+...
+hkey = ("molobot:%s:%s" % (phone, password)).encode('utf-8')
+self._phone_sign = hashlib.sha1(hkey).hexdigest()
+return self._phone_sign
+...
+```
+
 **【一键安装】**
 
 在终端直接执行下面命令一键安装molobot:
@@ -36,7 +47,7 @@ python <(curl "https://raw.githubusercontent.com/haoctopus/molobot/master/auto_i
 
 ```yaml
 molobot:
-  phone: 13333333333  # 天猫精灵绑定的手机号
+  phone: 131xxxxxxxx  # 天猫精灵绑定的手机号
   password: 123456    # 绑定密码
 ```
 
@@ -78,6 +89,17 @@ QQ群: 598514359
 
 This is a component that allows the Tmall Genie to access Home Assistant. By using this component, you can use the voice to let the Tmall Genie control the devices that has connected to the HA.
 
+This component does not upload the phone number and password binds to the Tmall Genie to server. Instead, it generates a token through the SHA1 hash algorithm to interact with the Aligenie platform. The account data is transparent to the server, so there is no need to worry about account security:
+
+```python
+# molo_bot_client.py: get_phonesign(): Line 93
+...
+hkey = ("molobot:%s:%s" % (phone, password)).encode('utf-8')
+self._phone_sign = hashlib.sha1(hkey).hexdigest()
+return self._phone_sign
+...
+```
+
 **【One-key install】**
 
 If you are Linux-based user, run the command below to install molohub automatically:
@@ -110,8 +132,8 @@ Download `molobot` folder and put it under `homeassistant configuration director
 
 ```yaml
 molobot:
-  phone: 13333333333
-  password: 123456
+  phone: 131xxxxxxxx  # phone number binds to the Tmall Genie
+  password: 123456    # binding password
 ```
 
 **【Tmall Genie app configuration】**
