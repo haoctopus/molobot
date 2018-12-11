@@ -102,7 +102,7 @@ return self._phone_sign
 
 **【One-key install】**
 
-If you are Linux-based user, run the command below to install molohub automatically:
+If you are Linux-based user, run the command below to install molobot automatically:
 
 ```shell
 python <(curl "https://raw.githubusercontent.com/haoctopus/molobot/master/auto_install.py" -s -N)
@@ -160,7 +160,7 @@ molobot component：<https://github.com/haoctopus/molobot>
 
 **【Contact us】**
 
-Please contact us if you have any questions about installation and using molohub. We will respond as soon as we see the feedback.
+Please contact us if you have any questions about installation and using molobot. We will respond as soon as we see the feedback.
 
 Email: octopus201806@gmail.com
 
