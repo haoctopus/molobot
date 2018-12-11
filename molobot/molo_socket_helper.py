@@ -18,6 +18,7 @@ class MoloSocketHelper:
         payload['ClientVersion'] = client_version
         payload['HAVersion'] = ha_version
         payload['UUID'] = load_uuid(hass)
+        payload['App'] = 'molobot'
 
         payload['MacAddr'] = get_mac_addr()
         local_seed = get_rand_char(32).lower()
