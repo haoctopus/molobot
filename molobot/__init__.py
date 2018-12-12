@@ -54,6 +54,8 @@ def setup(hass, config):
 
     from .molo_bot_main import run_aligenie
     run_aligenie(hass)
+    hass.components.persistent_notification.async_create(
+        "Welcome to molobot!", "Molo Bot Infomation", "molo_bot_notify")
 
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_START, start_molobot)
     hass.bus.async_listen(EVENT_STATE_CHANGED, on_state_changed)
