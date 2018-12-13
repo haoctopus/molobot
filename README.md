@@ -61,6 +61,8 @@ molobot:
 
 ![img](README/tmall-device.png)
 
+__注意，由于天猫精灵本身不支持自定义别名，在绑定成功后请在app中对设备设置位置和别名，否则将不能对这些设备进行操作。例如在“客厅”内有两个“灯”，则这两个灯都不能正常操作，需要改为“卧室”的“灯”和“客厅”的“灯”，或者改为“客厅”的“灯”和“客厅”的“吊灯”，才能正常操作。__
+
 **【支持设备及属性】**
 
 目前支持的设备类型有: 灯, 开关, 传感器.
@@ -145,6 +147,8 @@ Open Tmall Genie app - 我的 - 添加智能设备 - 找到MoloBot - 绑定设�
 After the binding is successful, you can see the device bound in HA in the Tmall Genie app.
 
 ![img](README/tmall-device.png)
+
+__Note that since the Tmall Genie itself does not support custom aliases, please set the location and alias for the device in the app after the binding is successful, otherwise you will not be able to operate on these devices. For example, if there are two "lights" in the "living room", then these two lights can not operate normally, and need to be changed to "bedroom light" and "living room light", or "living room light" and "living room chandelier" can be operated normally.__
 
 **【Supported devices and attributes】**
 
