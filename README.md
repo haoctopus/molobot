@@ -93,7 +93,7 @@ molobot:
         - input_boolean.notify_home1
         - input_boolean.notify_home2
 
-    - name: sensor #可同时查询温度、湿度
+    - name: test_sensor #可同时查询温度、湿度
       entities:
         - sensor.humidity_1
         - sensor.temperature_2
