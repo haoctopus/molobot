@@ -1,4 +1,4 @@
-## **【中文简介】**
+## 中文简介
 
 ![img](README/xmolo-zx.png)
 
@@ -17,7 +17,7 @@ return self._phone_sign
 
 ## 安装MoloBot
 
-###【一键安装】
+### 一键安装
 
 >在终端直接执行下面命令一键安装molobot:
 	
@@ -29,7 +29,7 @@ python <(curl "https://raw.githubusercontent.com/haoctopus/molobot/master/auto_i
 
 >若此方法安装失败，请用下面的方法手动安装。有`curl`组件的Windows用户也可以通过`cmd`。
 
-###【手动安装】
+### 手动安装
 
 - [molobot组件](https://github.com/haoctopus/molobot)
 
@@ -109,7 +109,7 @@ molobot:
 
 __注意，由于天猫精灵本身不支持自定义别名，在绑定成功后请在app中对设备设置位置和别名，否则将不能对这些设备进行操作。例如在“客厅”内有两个“灯”，则这两个灯都不能正常操作，需要改为“卧室”的“灯”和“客厅”的“灯”，或者改为“客厅”的“灯”和“客厅”的“吊灯”，才能正常操作。__
 
-###【支持设备及属性】
+### 支持设备及属性
 
 目前支持的设备类型有: 灯、开关、传感器、风扇、空调、摄像头、播放器、二元选择器.
 
@@ -120,13 +120,13 @@ __注意，由于天猫精灵本身不支持自定义别名，在绑定成功后
 	空调、风扇风速支持 自动、低风、中风、高风、最小、最大
 	摄像头、播放器、二元选择器 只支持开关
 
-###【相关链接】**
+### 相关链接
 
 平台网站：<https://www.molo.cn>
 
 molobot组件：<https://github.com/haoctopus/molobot>
 
-###【联系我们】**
+### 联系我们
 
 如果安装和使用过程中遇到任何问题，可以通过以下方式联系我们，我们将在看到反馈后第一时间作出回应:
 
@@ -142,7 +142,7 @@ QQ群: 598514359
 
 ![img](README/tmall-device.png)
 
-## **【Description in English】**
+## Description in English
 
 ![img](README/xmolo-zx.png)
 
