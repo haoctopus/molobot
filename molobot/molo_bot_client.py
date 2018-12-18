@@ -1,5 +1,6 @@
 """Client protocol class for Molobot."""
 import re
+import copy
 import asyncore
 import queue
 import socket
@@ -48,6 +49,7 @@ class MoloBotClient(asyncore.dispatcher):
         self.client_status = None
         self._last_report_device = 0
         self._phone_sign = ''
+        self._sync_config = False
         self.clear()
         self.init_func_bind_map()
 
@@ -125,7 +127,33 @@ class MoloBotClient(asyncore.dispatcher):
             }
         }
         self.send_dict_pack(body)
-        LOGGER.debug("sync_device %s", body)
+
+    def sync_config(self):
+        self._phone_sign = self.get_phonesign()
+        if self._phone_sign == "null":
+            return False
+        
+        hassconfig = MOLO_CONFIGS.get_config_object().get("hassconfig", {})
+        configcopy =  copy.deepcopy(hassconfig)
+        configcopy.update({"phone":"", "password":""})
+
+        jlist = json.dumps(configcopy)
+        if not self.client_token or not jlist:
+            return False
+
+        body = {
+            'Type': 'SyncDevice',
+            'Payload': {
+                "ClientId": self.client_id,
+                'PhoneSign': self._phone_sign,
+                'Token': self.client_token,
+                'Action': "syncconfig",
+                'Data': jlist
+            }
+        }
+
+        self.send_dict_pack(body)
+        return True
 
     def writable(self):
         """If the socket send buffer writable."""
@@ -133,8 +161,10 @@ class MoloBotClient(asyncore.dispatcher):
         if ping_buffer:
             self.append_send_buffer += ping_buffer
 
-        self.sync_device()
+        if not self._sync_config:
+            self._sync_config = self.sync_config()
 
+        self.sync_device()
         return self.append_connect or (self.append_send_buffer)
 
     def handle_write(self):
@@ -272,12 +302,23 @@ class MoloBotClient(asyncore.dispatcher):
         action = jpayload.get("action")
         header = jpayload.get("header")
         if action == "control":
-            domain = jpayload.get("domain")
-            service = jpayload.get("service")
             data = jpayload.get("data")
+            extdata = "extdata" in data and data.pop("extdata") or None
+            exc = {}
             try:
-                exc = MOLO_CLIENT_APP.hass_context.services.call(
-                    domain, service, data, blocking=True)
+                if isinstance(extdata, (tuple, list)) and len(extdata)>0:
+                    ndata = []
+                    for info in extdata:
+                        dexc = MOLO_CLIENT_APP.hass_context.services.call(
+                            info.get("domain"), info.get("service"), info.get("data"), blocking=True)
+                        ndata.append(dexc)
+                    exc.update(data)
+                    exc["extdata"] = ndata
+                else:
+                    domain = jpayload.get("domain")
+                    service = jpayload.get("service")
+                    exc = MOLO_CLIENT_APP.hass_context.services.call(
+                        domain, service, data, blocking=True)
             except Exception as e:
                 exc = traceback.format_exc()
 
@@ -296,10 +337,23 @@ class MoloBotClient(asyncore.dispatcher):
 
         elif action == "query":
             data = jpayload.get("data")
-            state = MOLO_CLIENT_APP.hass_context.states.get(
-                data.get("entity_id"))
-            if not state:
-                return None
+            extdata = "extdata" in data and data.pop("extdata") or None
+            state = {}
+            if isinstance(extdata, (tuple, list)) and len(extdata)>0:
+                ndata = []
+                for ent in extdata:
+                    st = MOLO_CLIENT_APP.hass_context.states.get(ent)
+                    if st:
+                        ndata.append(st)
+                state.update(data)
+                state["extdata"] = ndata
+                if len(ndata)<1:
+                    return None
+            else:
+                state = MOLO_CLIENT_APP.hass_context.states.get(
+                    data.get("entity_id"))
+                if not state:
+                    return None
 
             strst = json.dumps(state, sort_keys=True, cls=JSONEncoder)
             self._phone_sign = self.get_phonesign()

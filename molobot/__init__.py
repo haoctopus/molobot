@@ -14,7 +14,7 @@ from .utils import LOGGER
 
 DOMAIN = 'molobot'
 NOTIFYID = 'molobotnotifyid'
-
+VERSION = 101
 
 def setup(hass, config):
     """Set up molobot component."""
@@ -22,6 +22,8 @@ def setup(hass, config):
 
     # Load config mode from configuration.yaml.
     cfg = config[DOMAIN]
+    cfg.update({"__version__": VERSION})
+
     if 'mode' in cfg:
         MOLO_CONFIGS.load(cfg['mode'])
     else:
@@ -54,8 +56,10 @@ def setup(hass, config):
 
     from .molo_bot_main import run_aligenie
     run_aligenie(hass)
-    hass.components.persistent_notification.async_create(
-        "Welcome to molobot!", "Molo Bot Infomation", "molo_bot_notify")
+
+    if not cfg.get("disablenotify", False):
+        hass.components.persistent_notification.async_create(
+            "Welcome to molobot!", "Molo Bot Infomation", "molo_bot_notify")
 
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_START, start_molobot)
     hass.bus.async_listen(EVENT_STATE_CHANGED, on_state_changed)
