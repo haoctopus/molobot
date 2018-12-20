@@ -66,27 +66,13 @@ molobot:
 
 ## 高级配置
 
-### 不绑定设备至`天猫精灵`的过滤配置
-```yaml
-molobot:
-  phone: 131********
-  password: ******
-  filter:
-    exclude_domains: #按domain过滤
-      - sensor #过滤所有传感器
-      - camera #过滤所有摄像头
-
-    exclude_entities: #按设备过滤
-      - light.gateway_light_1 #设备1
-      - light.gateway_light_2 #设备2
-```
-
 ### 设备分组查询或控制
 >比如小米传感器支持温度、湿度，在ha中被分为两个设备，但猫精不支持两个相同设备再同一房间，此时可以如下解决
 ```yaml
 molobot:
   phone: 131********
   password: ******
+
   group:
     - name: test_input #多开关控制，查询时其中一个为关，则状态为关
       entities:
@@ -99,11 +85,35 @@ molobot:
         - sensor.temperature_2
 ```
 
+### 自定义设备至`天猫精灵`的过滤配置，慎重配置，可能导致天猫精灵获取不到设备
+```yaml
+molobot:
+  phone: 131********
+  password: ******
+
+  filter:
+    #白名单，只同步在白名单内的列表
+    include_domains:
+      #配置同exclude_domains
+
+    include_entities:
+      #配置同exclude_entities
+
+    #黑名单，设备不同步至天猫精灵
+    exclude_domains: #按domain过滤
+      - input_boolean #过滤所有传感器
+
+    exclude_entities: #按设备ID过滤
+      - light.gateway_light_1 #设备1
+      - light.gateway_light_2 #设备2
+```
+
 ### 禁止welcome molobot的通知提醒
 ```yaml
 molobot:
   phone: 131********
   password: ******
+
   disablenotify: true
 ```
 
