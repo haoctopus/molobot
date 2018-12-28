@@ -1,7 +1,13 @@
 import os
 import zipfile
 import shutil
+import sys
 
+input_fun = None
+if sys.version_info < (3, 0):
+    input_fun = raw_input
+else:
+    input_fun = input
 
 def find(name, path):
     for root, dirs, files in os.walk(path):
@@ -61,9 +67,9 @@ def configurate(path):
     if '\nmolobot:' in file_str:
         return
     print("input your bound phone number:")
-    phone = str(raw_input())
+    phone = str(input_fun())
     print("input your bound password:")
-    password = str(raw_input())
+    password = str(input_fun())
     with open(path, 'a') as f:
         f.write('\nmolobot:\n  phone: %s\n  password: %s\n' % (phone, password))
 
