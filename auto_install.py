@@ -61,9 +61,9 @@ def configurate(path):
     if '\nmolobot:' in file_str:
         return
     print("input your bound phone number:")
-    phone = str(input())
+    phone = str(raw_input())
     print("input your bound password:")
-    password = str(input())
+    password = str(raw_input())
     with open(path, 'a') as f:
         f.write('\nmolobot:\n  phone: %s\n  password: %s\n' % (phone, password))
 
